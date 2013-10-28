@@ -17,6 +17,7 @@
 		E6D950661816DAA700806311 /* Voxelifyer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6D950641816DAA700806311 /* Voxelifyer.cpp */; };
 		E6D950671816DAA700806311 /* Voxelifyer.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D950651816DAA700806311 /* Voxelifyer.h */; };
 		E6D950711816FB9F00806311 /* c4d_symbols.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D950701816FB9F00806311 /* c4d_symbols.h */; };
+		E6F30F35181EF53500D32FFF /* VGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F30F33181EF53500D32FFF /* VGrid.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -69,6 +70,7 @@
 		E6D950641816DAA700806311 /* Voxelifyer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Voxelifyer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		E6D950651816DAA700806311 /* Voxelifyer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Voxelifyer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		E6D950701816FB9F00806311 /* c4d_symbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; name = c4d_symbols.h; path = res/c4d_symbols.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		E6F30F33181EF53500D32FFF /* VGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGrid.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				AFA997F5179B7D5500546EC9 /* object */,
 				E6D950641816DAA700806311 /* Voxelifyer.cpp */,
 				E6D950651816DAA700806311 /* Voxelifyer.h */,
+				E6F30F33181EF53500D32FFF /* VGrid.h */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 				E6AAC5A517C547F2005ADAA3 /* voxelify.h in Headers */,
 				E6D950671816DAA700806311 /* Voxelifyer.h in Headers */,
 				E6D950711816FB9F00806311 /* c4d_symbols.h in Headers */,
+				E6F30F35181EF53500D32FFF /* VGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

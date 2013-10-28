@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 #include "Voxelifyer.h"
+#include "VGrid.h"
 // unique ID obtained from www.plugincafe.com
 #define ID_VOXELIFY 1031321
 
@@ -85,10 +86,18 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
 	StatusSetBar(0);
     StatusSetText("Collecting Points");
 
+    GeDynamicArray<Vector> bBoxes;
+    for (int k= 0; k < children.GetCount(); k++){
+        Vector boundingBox = children[k]->GetRad();
+        bBoxes.Push(boundingBox);
+    }
+    
     GeDynamicArray<GeDynamicArray<Vector> > objectPoints(children.GetCount());
     vector<vector<float> > points;
-    vector<vector<float> > surfacePoints;
-    vox.voxelify(points, surfacePoints, 0.1f);
+
+    
+    VGrid vgrid(123, 321, 123, 0.1);
+    vox.voxelify(points, vgrid, 0.1f);
     
     LONG maxPointCnt = 0;
     parentMatrix = parent->GetMl();

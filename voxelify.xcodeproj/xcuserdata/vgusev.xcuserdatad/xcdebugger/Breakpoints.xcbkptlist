@@ -16,5 +16,31 @@
          landmarkName = "Triangulator::triangulate(std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, std::vector&lt;std::vector&lt;float&gt; &gt;&amp; surfacePoints, vector&lt;vector&lt;int&gt; &gt;&amp; triIndxs, const int ksearchNeighbors, const float gp3SearchRadius, const int gp3MaxNeighbors, const float gp3Mu)"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "source/Voxelifyer.cpp"
+         timestampString = "404688498.075211"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "78"
+         endingLineNumber = "78"
+         landmarkName = "Voxelifier::voxelify(const std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, VGrid&amp; vGrid, const float leafSize)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "source/object/voxelify.cpp"
+         timestampString = "404688650.30241"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
+         landmarkName = "Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, BaseThread *bt)"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
