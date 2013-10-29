@@ -62,8 +62,8 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
     // Create the filtering object
     voxelGrid.setInputCloud (cloud2);
     voxelGrid.setLeafSize (vGrid.x_leaf, vGrid.y_leaf, vGrid.z_leaf);
-    pcl::IndicesPtr indexVector (new vector<int>); 
-    voxelGrid.setIndices(indexVector);
+
+    voxelGrid.setSaveLeafLayout(true);
     voxelGrid.filter (*cloud_filtered);
     
     std::cerr << "PointCloud after filtering: " << cloud_filtered->width * cloud_filtered->height
@@ -75,19 +75,20 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
     pcl::PointCloud<pcl::PointXYZ>::Ptr out(new pcl::PointCloud <pcl::PointXYZ>);
     pcl::fromPCLPointCloud2 (*cloud_filtered, *out);
     size_t newSize = out->size();
-    for (size_t depth_idx = 0; depth_idx < newSize; depth_idx++)
-    {
-        pcl::PointXYZ& pt = cloud->points[depth_idx];
-        vGrid.points[depth_idx][0] = pt.x;
-        vGrid.points[depth_idx][1] = pt.y;
-        vGrid.points[depth_idx][2] = pt.z;
-    }
+//    for (size_t depth_idx = 0; depth_idx < newSize; depth_idx++)
+//    {
+//        pcl::PointXYZ& pt = out->points[depth_idx];
+//        vGrid.points[depth_idx][0] = pt.x;
+//        vGrid.points[depth_idx][1] = pt.y;
+//        vGrid.points[depth_idx][2] = pt.z;
+//    }
     
     ////////////////
     
     
   int data_cnt = 0;
   const Eigen::Vector3i v_ref = voxelGrid.getMinBoxCoordinates ();
+  int nr0 = voxelGrid.getNrDivisions ()[0], nr1 = voxelGrid.getNrDivisions ()[1], nr2 = voxelGrid.getNrDivisions ()[2];
   for (int i = 0; i < voxelGrid.getNrDivisions ()[0]; i++) {
     for (int j = 0; j < voxelGrid.getNrDivisions ()[1]; j++) {
       Eigen::Vector3f p (0, 0, 0);
@@ -101,6 +102,10 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
 
         if (index != -1)
         {
+            vGrid.points[index][0] = 1.0;
+            vGrid.points[index][1] = 1.0;
+            vGrid.points[index][2] = 1.0;
+
 //          p[0] += pointcloud_data_->points[index].x;
 //          p[1] += pointcloud_data_->points[index].y;
 //          p[2] += pointcloud_data_->points[index].z;

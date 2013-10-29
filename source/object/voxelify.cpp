@@ -135,7 +135,7 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     StatusSetText("Collecting Points");
     vector<vector<float> > points;
     std::vector<VGrid> grids;
-    int gridSize = 100;
+    int gridSize = 2;
     for (int k= 0; k < children.GetCount(); k++){
         Vector bb = children[k]->GetRad();
         VGrid grid(gridSize, gridSize, gridSize,bb.x/(float)gridSize, bb.y/(float)gridSize,bb.z/(float)gridSize);
