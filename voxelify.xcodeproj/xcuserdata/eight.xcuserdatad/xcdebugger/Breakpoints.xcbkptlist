@@ -34,38 +34,51 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "source/Voxelifyer.cpp"
-         timestampString = "404629216.069413"
+         timestampString = "404715490.056287"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "45"
-         endingLineNumber = "45"
-         landmarkName = "Voxelifier::voxelify(std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, std::vector&lt;std::vector&lt;float&gt; &gt;&amp; surfacePoints, const float leafSize)"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
+         landmarkName = "Voxelifier::voxelify(const std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, VGrid&amp; vGrid)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "source/object/voxelify.cpp"
-         timestampString = "404631028.22533"
+         filePath = "source/Voxelifyer.cpp"
+         timestampString = "404715589.186143"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "91"
-         endingLineNumber = "91"
-         landmarkName = "Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, BaseThread *bt)"
+         startingLineNumber = "112"
+         endingLineNumber = "112"
+         landmarkName = "Voxelifier::voxelify(const std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, VGrid&amp; vGrid)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "source/object/voxelify.cpp"
-         timestampString = "404631132.073312"
+         filePath = "source/Voxelifyer.cpp"
+         timestampString = "404715670.021414"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "59"
-         endingLineNumber = "59"
-         landmarkName = "Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, BaseThread *bt)"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
+         landmarkName = "Voxelifier::voxelify(const std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, VGrid&amp; vGrid)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "source/Voxelifyer.cpp"
+         timestampString = "404715840.563528"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "99"
+         endingLineNumber = "99"
+         landmarkName = "Voxelifier::voxelify(const std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, VGrid&amp; vGrid)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

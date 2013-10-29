@@ -23,7 +23,9 @@ class Voxelify : public ObjectData
 private:
     Real maxSeg, minSeg;
     Matrix parentMatrix;
-    SplineObject* ComputeSpline(BaseThread* bt, GeDynamicArray<GeDynamicArray<Vector> > &objectPoints, LONG maxPoints, LONG longestPercent, GeDynamicArray<GeDynamicArray<Vector> > &splineAtPoint);
+    SplineObject* ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG longestPercent, GeDynamicArray<GeDynamicArray<Vector> > &splinesAtPoint);
+    void DoRecursion(BaseObject *op, BaseObject *child, GeDynamicArray<Vector> &points, Matrix ml);
+    vector<vector<float> > objectPointsToPoints(GeDynamicArray<Vector>  objectPoints);
     Voxelifier vox;
     
 public:
@@ -43,6 +45,50 @@ Bool Voxelify::Init(GeListNode *node)
     GePrint("Voxelify by http://twitter.com/eight_io for Cinema 4D r14");
     
     return TRUE;
+}
+
+void Voxelify::DoRecursion(BaseObject *op, BaseObject *child, GeDynamicArray<Vector> &points, Matrix ml) {
+	BaseObject *tp;
+	if (child){
+		tp = child->GetDeformCache();
+		ml = ml * child->GetMl();
+		if (tp){
+			DoRecursion(op,tp,points,ml);
+		}
+		else{
+			tp = child->GetCache(NULL);
+			if (tp){
+				DoRecursion(op,tp,points,ml);
+			}
+			else{
+				if (!child->GetBit(BIT_CONTROLOBJECT)){
+					if (child->IsInstanceOf(Opoint)){
+						PointObject * pChild = ToPoint(child);
+						LONG pcnt = pChild->GetPointCount();
+						const Vector *childVerts = pChild->GetPointR();
+						for(LONG i=0; i < pcnt; i++){
+							points.Push(childVerts[i] * ml * parentMatrix);
+						}
+					}
+				}
+			}
+		}
+		for (tp = child->GetDown(); tp; tp=tp->GetNext()){
+			DoRecursion(op,tp,points,ml);
+		}
+	}
+}
+
+vector<vector<float> > Voxelify::objectPointsToPoints(GeDynamicArray<Vector>  objectPoints){
+    vector<vector<float> > points(objectPoints.GetCount());
+    for (LONG i = 0; i < objectPoints.GetCount(); i++) {
+        vector<float> p(3);
+        p[0] = objectPoints[i].x;
+        p[1] = objectPoints[i].y;
+        p[2] = objectPoints[i].z;
+        points[i] = p;
+    }
+    return points;
 }
 
 
@@ -83,28 +129,27 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     LONG longestPercent = data->GetLong(TAKE_LONGEST, 1);
     longestPercent = longestPercent > 100 ? 100: longestPercent;
     
-	StatusSetBar(0);
-    StatusSetText("Collecting Points");
-
-    GeDynamicArray<Vector> bBoxes;
-    for (int k= 0; k < children.GetCount(); k++){
-        Vector boundingBox = children[k]->GetRad();
-        bBoxes.Push(boundingBox);
-    }
     
     GeDynamicArray<GeDynamicArray<Vector> > objectPoints(children.GetCount());
+	StatusSetBar(0);
+    StatusSetText("Collecting Points");
     vector<vector<float> > points;
+    std::vector<VGrid> grids;
+    int gridSize = 100;
+    for (int k= 0; k < children.GetCount(); k++){
+        Vector bb = children[k]->GetRad();
+        VGrid grid(gridSize, gridSize, gridSize,bb.x/(float)gridSize, bb.y/(float)gridSize,bb.z/(float)gridSize);
+        grids.push_back(grid);
+        
+        Matrix ml;
+        DoRecursion(op,children[k],objectPoints[k], ml);
+        points = objectPointsToPoints(objectPoints[k]);
+        vox.voxelify(points, grid);
+    }
 
-    
-    VGrid vgrid(123, 321, 123, 0.1);
-    vox.voxelify(points, vgrid, 0.1f);
-    
-    LONG maxPointCnt = 0;
     parentMatrix = parent->GetMl();
     
-    GePrint("Max Points: "+LongToString(maxPointCnt));
-    
-    SplineObject* parentSpline = ComputeSpline(bt, objectPoints, maxPointCnt, longestPercent, splineAtPoint);
+    SplineObject* parentSpline = ComputeSpline(bt, grids, longestPercent, splineAtPoint);
     
     ModelingCommandData mcd;
     mcd.doc = doc;
@@ -132,7 +177,7 @@ Error:
     return NULL;
 }
 
-SplineObject* Voxelify::ComputeSpline(BaseThread* bt, GeDynamicArray<GeDynamicArray<Vector> > &objectPoints, LONG maxPoints, LONG longestPercent, GeDynamicArray<GeDynamicArray<Vector> > &splinesAtPoint){
+SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG longestPercent, GeDynamicArray<GeDynamicArray<Vector> > &splinesAtPoint){
     
     StatusSetBar(5);
     StatusSetText("Connecting Points");
@@ -146,17 +191,17 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, GeDynamicArray<GeDynamicAr
     Random r;
     r.Init(43432);
     
-    for (LONG i = 0; i < objectPoints[0].GetCount(); i++) {
+    for (LONG i = 0; i < grids[0].size; i++) {
         GeDynamicArray<Vector> rawSpline;
-        rawSpline.Push(objectPoints[0][i]);
+        Vector point(grids[0].points[i][0], grids[0].points[i][1], grids[0].points[i][2]);
+        rawSpline.Push(point);
         splinesAtPoint.Push(rawSpline);
     }
     
-    GeDynamicArray<GeDynamicArray<LONG> > validPoints(objectPoints.GetCount());
-    for (LONG k=0; k < objectPoints.GetCount(); k++){
-        //maxPoints = objectPoints[k].GetCount();
-        validPoints[k] = GeDynamicArray<LONG>(maxPoints);
-        validPoints[k].Fill(0,maxPoints,1);
+    GeDynamicArray<GeDynamicArray<LONG> > validPoints(grids.size());
+    for (LONG k=0; k < grids.size(); k++){
+        validPoints[k] = GeDynamicArray<LONG>(grids[0].size);
+        validPoints[k].Fill(0,grids[0].size,1);
     }
     
     Real distMin = MAXREALr;
@@ -165,16 +210,14 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, GeDynamicArray<GeDynamicAr
     LONG i, o;
     for (i = 0; i < splinesAtPoint.GetCount(); i++){//iterate points
         bool lastPointCaptured = true;
-        for (o=0; o < objectPoints.GetCount()-1; o++){ // for each point iterate objects and collect nearest points
-            
-            Vector queryPoint = splinesAtPoint[i][splinesAtPoint[i].GetCount()-1];
+        for (o=0; o < grids.size()-1; o++){ // for each point iterate objects and collect nearest points
             
             Real dist = -1.;
             LONG closestIndx = 0;
-            
-            if (closestIndx == -1) {
+            vector<float> result = grids[o+1].points[i];
+            if (!(result[0] && result[1] && result[2])){
                 GePrint("error finding neighbor "+LongToString(o)+"/"+LongToString(i));
-                if (o == objectPoints.GetCount()-1){
+                if (o == grids.size()-1){
                     lastPointCaptured = false;
                 }
                 continue;
@@ -183,13 +226,14 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, GeDynamicArray<GeDynamicAr
             distMin = distMin < dist ? distMin : dist;
             distMax = distMax > dist ? distMax : dist;
             
-            if (o != objectPoints.GetCount()-1) {
+            if (o != grids.size()-1) {
                 if (dist > maxSeg || dist < minSeg) {
                     continue;
                 }
             }
-            validPoints[o][closestIndx] = 0;
-            Vector clsst = objectPoints[o+1][closestIndx];
+            validPoints[o][i] = 0;
+            
+            Vector clsst(grids[o+1].points[i][0],grids[o+1].points[i][1],grids[o+1].points[i][2]);
             
             if (splinesAtPoint[i].Find(clsst) == NOTOK){
                 splinesAtPoint[i].Push(clsst);
