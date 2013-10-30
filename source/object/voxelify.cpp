@@ -107,7 +107,7 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     minSeg = data->GetReal(CTTSPOBJECT_MINSEG);
     
     LONG delta = data->GetLong(OBJECT_SKIP,1);
-    delta = delta < 1? 1 : delta;
+    delta = delta < 1 ? 1 : delta;
     
     GeDynamicArray<BaseObject*> children;
     GeDynamicArray<GeDynamicArray<Vector> > splineAtPoint;
@@ -135,16 +135,14 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     StatusSetText("Collecting Points");
     vector<vector<float> > points;
     std::vector<VGrid> grids;
+
     int gridSize = 2;
     for (int k= 0; k < children.GetCount(); k++){
-        Vector bb = children[k]->GetRad();
-        VGrid grid(gridSize, gridSize, gridSize,bb.x/(float)gridSize, bb.y/(float)gridSize,bb.z/(float)gridSize);
-        grids.push_back(grid);
-        
+        Vector bb = children[k]->GetRad();        
         Matrix ml;
         DoRecursion(op,children[k],objectPoints[k], ml);
         points = objectPointsToPoints(objectPoints[k]);
-        vox.voxelify(points, grid);
+        grids.push_back(vox.voxelify(points,bb.x/(float)gridSize,bb.y/(float)gridSize,bb.z/(float)gridSize));
     }
 
     parentMatrix = parent->GetMl();
@@ -188,10 +186,7 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
     
     Real avSplineSize = 0.0, avSplineLength = 0.0;
     
-    Random r;
-    r.Init(43432);
-    
-    for (LONG i = 0; i < grids[0].size; i++) {
+    for (LONG i = 0; i < grids[0].points.size(); i++) {
         GeDynamicArray<Vector> rawSpline;
         Vector point(grids[0].points[i][0], grids[0].points[i][1], grids[0].points[i][2]);
         rawSpline.Push(point);
@@ -200,8 +195,8 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
     
     GeDynamicArray<GeDynamicArray<LONG> > validPoints(grids.size());
     for (LONG k=0; k < grids.size(); k++){
-        validPoints[k] = GeDynamicArray<LONG>(grids[0].size);
-        validPoints[k].Fill(0,grids[0].size,1);
+        validPoints[k] = GeDynamicArray<LONG>(grids[0].points.size());
+        validPoints[k].Fill(0,grids[0].points.size(),1);
     }
     
     Real distMin = MAXREALr;
@@ -212,24 +207,23 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
         bool lastPointCaptured = true;
         for (o=0; o < grids.size()-1; o++){ // for each point iterate objects and collect nearest points
             
-            Real dist = -1.;
-            LONG closestIndx = 0;
-            vector<float> result = grids[o+1].points[i];
-            if (!(result[0] && result[1] && result[2])){
+
+            LONG closestIndx = grids[o+1].indices[i];
+            if ( closestIndx == -1){
                 GePrint("error finding neighbor "+LongToString(o)+"/"+LongToString(i));
                 if (o == grids.size()-1){
                     lastPointCaptured = false;
                 }
                 continue;
             }
-            
+            Real dist = hypot(grids[o].points[i][0] - grids[o+1].points[i][0], hypot(grids[o].points[i][1] - grids[o+1].points[i][1], grids[o].points[i][2] - grids[o+1].points[i][2]));
             distMin = distMin < dist ? distMin : dist;
             distMax = distMax > dist ? distMax : dist;
             
             if (o != grids.size()-1) {
-                if (dist > maxSeg || dist < minSeg) {
-                    continue;
-                }
+                //if (dist > maxSeg || dist < minSeg) {
+                //    continue;
+                //}
             }
             validPoints[o][i] = 0;
             

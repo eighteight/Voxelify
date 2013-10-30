@@ -15,7 +15,7 @@ public:
     Voxelifier(){};
     ~Voxelifier(){};
     
-    void voxelify(const std::vector<std::vector<float> >& points, VGrid& vgrid);
+    VGrid voxelify(const std::vector<std::vector<float> >& points, const float xLeaf, const float yLeaf, const float zLeaf);
 
 };
 #endif /* defined(__voxelify__Voxelifier__) */

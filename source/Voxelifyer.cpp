@@ -29,7 +29,7 @@ using namespace std;
     pcl::PCLPointCloud2::Ptr cloud2 = make_shared<pcl::PCLPointCloud2>();
     pcl::PCLPointCloud2::Ptr cloud_filtered = make_shared<pcl::PCLPointCloud2> ();
 
-void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid& vGrid){
+VGrid Voxelifier::voxelify(const std::vector<std::vector<float> >& points, const float xLeaf, const float yLeaf, const float zLeaf){
     
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = boost::make_shared<pcl::PointCloud<pcl::PointXYZ> >();
     
@@ -61,7 +61,7 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
 
     // Create the filtering object
     voxelGrid.setInputCloud (cloud2);
-    voxelGrid.setLeafSize (vGrid.x_leaf, vGrid.y_leaf, vGrid.z_leaf);
+    voxelGrid.setLeafSize (xLeaf, yLeaf, zLeaf);
 
     voxelGrid.setSaveLeafLayout(true);
     voxelGrid.filter (*cloud_filtered);
@@ -85,26 +85,28 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
     
     ////////////////
     
-    
+    VGrid vGrid;
   int data_cnt = 0;
   const Eigen::Vector3i v_ref = voxelGrid.getMinBoxCoordinates ();
   int nr0 = voxelGrid.getNrDivisions ()[0], nr1 = voxelGrid.getNrDivisions ()[1], nr2 = voxelGrid.getNrDivisions ()[2];
+  vGrid.points = std::vector<vector<float> >(nr0*nr1*nr2, vector<float>(3,0.0));
+  vGrid.indices = std::vector<int>(nr0*nr1*nr2, -1);
   for (int i = 0; i < voxelGrid.getNrDivisions ()[0]; i++) {
     for (int j = 0; j < voxelGrid.getNrDivisions ()[1]; j++) {
       Eigen::Vector3f p (0, 0, 0);
       int cnt_same_z = 0;
 //      std::cout << "****************************" << std::endl;
-      for (int k = 0; k < voxelGrid.getNrDivisions ()[2]; k++)
-      {
+      for (int k = 0; k < voxelGrid.getNrDivisions ()[2]; k++) {
         Eigen::Vector3i v (i, j, k);
-        v = v + v_ref;
+        //v = v + v_ref;
         int index = voxelGrid.getCentroidIndexAt (v);
 
-        if (index != -1)
-        {
-            vGrid.points[index][0] = 1.0;
-            vGrid.points[index][1] = 1.0;
-            vGrid.points[index][2] = 1.0;
+        if (index != -1){
+            vGrid.indices[data_cnt] = 1;
+
+            vGrid.points[data_cnt][0] = out->points[index].x;
+            vGrid.points[data_cnt][1] = out->points[index].y;
+            vGrid.points[data_cnt][2] = out->points[index].z;
 
 //          p[0] += pointcloud_data_->points[index].x;
 //          p[1] += pointcloud_data_->points[index].y;
@@ -121,6 +123,7 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
 
           cnt_same_z++;
         }
+        data_cnt++;
 //        std::cout << v[0] << " " << v[1] << " " << v[2] << "\n";
 //        std::cout << grid.getCentroidIndexAt (v) << std::endl;
       }
@@ -130,10 +133,11 @@ void Voxelifier::voxelify(const std::vector<std::vector<float> >& points, VGrid&
         pcl::PointXYZ point (p[0], p[1], p[2]);
 //        std::cout << "pt: " << point.x << " " << point.y << " " << point.z << "\n";
         //resampled_data_->points[data_cnt] = point;
-        data_cnt++;
+        //data_cnt++;
       }
 //      std::cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&" << std::endl;
     }
   }
+    return vGrid;
 }
 
