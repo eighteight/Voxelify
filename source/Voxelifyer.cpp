@@ -86,6 +86,9 @@ VGrid Voxelifier::voxelify(const std::vector<std::vector<float> >& points, const
     ////////////////
     
     VGrid vGrid;
+    vGrid.x_leaf = xLeaf;
+    vGrid.y_leaf = yLeaf;
+    vGrid.z_leaf = zLeaf;
   int data_cnt = 0;
   const Eigen::Vector3i v_ref = voxelGrid.getMinBoxCoordinates ();
   int nr0 = voxelGrid.getNrDivisions ()[0], nr1 = voxelGrid.getNrDivisions ()[1], nr2 = voxelGrid.getNrDivisions ()[2];
@@ -138,6 +141,8 @@ VGrid Voxelifier::voxelify(const std::vector<std::vector<float> >& points, const
 //      std::cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&" << std::endl;
     }
   }
+    
+            std::cout<<vGrid<<std::endl;
     return vGrid;
 }
 

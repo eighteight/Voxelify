@@ -34,4 +34,15 @@ public:
     std::vector<int>indices;
 };
 
+
+inline ostream& operator<<(ostream& os, const VGrid& vg)
+{
+    os << vg.x_leaf << ':' << vg.y_leaf << ':' << vg.z_leaf;
+    for (size_t i = 0; i < vg.points.size(); i++){
+        os << vg.indices[i]<< " "<< vg.points[i][0] << " "<< vg.points[i][1] << " "<< vg.points[i][2]<< std::endl;
+    }
+    os << std::endl;
+    return os;
+}
+
 #endif /* defined(__voxelify__VGrid__) */

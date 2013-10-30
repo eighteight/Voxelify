@@ -185,30 +185,33 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
     std::vector<SplinePair >splinePairs;
     
     Real avSplineSize = 0.0, avSplineLength = 0.0;
-    
-    for (LONG i = 0; i < grids[0].points.size(); i++) {
-        GeDynamicArray<Vector> rawSpline;
-        Vector point(grids[0].points[i][0], grids[0].points[i][1], grids[0].points[i][2]);
-        rawSpline.Push(point);
-        splinesAtPoint.Push(rawSpline);
-    }
-    
     GeDynamicArray<GeDynamicArray<LONG> > validPoints(grids.size());
     for (LONG k=0; k < grids.size(); k++){
         validPoints[k] = GeDynamicArray<LONG>(grids[0].points.size());
         validPoints[k].Fill(0,grids[0].points.size(),1);
+
     }
     
-    Real distMin = MAXREALr;
+    GeDynamicArray<LONG> indxs;
+
+    for (LONG i = 0; i < grids[0].points.size(); i++) {
+        if (grids[0].indices[i] == -1) continue;
+        GeDynamicArray<Vector> rawSpline;
+        Vector point(grids[0].points[i][0], grids[0].points[i][1], grids[0].points[i][2]);
+        indxs.Push(i);
+        rawSpline.Push(point);
+        splinesAtPoint.Push(rawSpline);
+    }
+
+    Real distMin = std::numeric_limits<float>::max();
     Real distMax = 0.;
     AutoAlloc<SplineHelp> splineHelp;
     LONG i, o;
     for (i = 0; i < splinesAtPoint.GetCount(); i++){//iterate points
         bool lastPointCaptured = true;
+        LONG indx = indxs[i];
         for (o=0; o < grids.size()-1; o++){ // for each point iterate objects and collect nearest points
-            
-
-            LONG closestIndx = grids[o+1].indices[i];
+            LONG closestIndx = grids[o+1].indices[indx];
             if ( closestIndx == -1){
                 GePrint("error finding neighbor "+LongToString(o)+"/"+LongToString(i));
                 if (o == grids.size()-1){
@@ -216,7 +219,7 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
                 }
                 continue;
             }
-            Real dist = hypot(grids[o].points[i][0] - grids[o+1].points[i][0], hypot(grids[o].points[i][1] - grids[o+1].points[i][1], grids[o].points[i][2] - grids[o+1].points[i][2]));
+            Real dist = hypot(grids[o].points[indx][0] - grids[o+1].points[indx][0], hypot(grids[o].points[indx][1] - grids[o+1].points[indx][1], grids[o].points[indx][2] - grids[o+1].points[indx][2]));
             distMin = distMin < dist ? distMin : dist;
             distMax = distMax > dist ? distMax : dist;
             
