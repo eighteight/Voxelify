@@ -69,8 +69,8 @@ VGrid Voxelifier::voxelify(const std::vector<std::vector<float> >& points, const
     std::cerr << "PointCloud after filtering: " << cloud_filtered->width * cloud_filtered->height
     << " data points (" << pcl::getFieldsList (*cloud_filtered) << ").";
     
-    std::cerr << "Min box: " << endl<<voxelGrid.getMinBoxCoordinates()
-    << endl<<" Max Box " << voxelGrid.getMaxBoxCoordinates() << endl;
+//    std::cerr << "Min box: " << endl<<voxelGrid.getMinBoxCoordinates()
+//    << endl<<" Max Box " << voxelGrid.getMaxBoxCoordinates() << endl;
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr out(new pcl::PointCloud <pcl::PointXYZ>);
     pcl::fromPCLPointCloud2 (*cloud_filtered, *out);

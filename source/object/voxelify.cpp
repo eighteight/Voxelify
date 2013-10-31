@@ -136,12 +136,13 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     vector<vector<float> > points;
     std::vector<VGrid> grids;
 
-    int gridSize = 2;
+    int gridSize = 20;
     for (int k= 0; k < children.GetCount(); k++){
         Vector bb = children[k]->GetRad();        
         Matrix ml;
         DoRecursion(op,children[k],objectPoints[k], ml);
         points = objectPointsToPoints(objectPoints[k]);
+        GePrint(children[k]->GetName());
         grids.push_back(vox.voxelify(points,bb.x/(float)gridSize,bb.y/(float)gridSize,bb.z/(float)gridSize));
     }
 
