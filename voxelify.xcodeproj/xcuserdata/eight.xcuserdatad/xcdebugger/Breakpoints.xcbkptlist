@@ -7,52 +7,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "source/Triangulator.cpp"
-         timestampString = "404603280.547368"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "76"
-         endingLineNumber = "76"
-         landmarkName = "Triangulator::computeSurface(std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, std::vector&lt;std::vector&lt;float&gt; &gt;&amp; surfacePoints, vector&lt;vector&lt;int&gt; &gt;&amp; triIndxs, const int ksearchNeighbors, const float gp3SearchRadius, const int gp3MaxNeighbors, const float gp3Mu, bool useMls)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "source/Triangulator.cpp"
-         timestampString = "404603280.547368"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "54"
-         endingLineNumber = "54"
-         landmarkName = "Triangulator::computeSurface(std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, std::vector&lt;std::vector&lt;float&gt; &gt;&amp; surfacePoints, vector&lt;vector&lt;int&gt; &gt;&amp; triIndxs, const int ksearchNeighbors, const float gp3SearchRadius, const int gp3MaxNeighbors, const float gp3Mu, bool useMls)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "source/object/voxelify.cpp"
-         timestampString = "404892210.852041"
+         timestampString = "404969073.384957"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "151"
-         endingLineNumber = "151"
-         landmarkName = "Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, BaseThread *bt)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "source/Voxelifyer.cpp"
-         timestampString = "404892466.124021"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "95"
-         endingLineNumber = "95"
-         landmarkName = "Voxelifier::voxelify(const std::vector&lt;std::vector&lt;float&gt; &gt;&amp; points, const float xLeaf, const float yLeaf, const float zLeaf)"
+         startingLineNumber = "209"
+         endingLineNumber = "209"
+         landmarkName = "Voxelify::ComputeSpline(BaseThread* bt, vector&lt;VGrid&gt; grids, LONG longestPercent, GeDynamicArray&lt;GeDynamicArray&lt;Vector&gt; &gt; &amp;splinesAtPoint)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

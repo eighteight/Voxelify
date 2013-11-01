@@ -40,7 +40,7 @@ inline ostream& operator<<(ostream& os, const VGrid& vg)
     os << vg.x_leaf << ':' << vg.y_leaf << ':' << vg.z_leaf<<endl;
     for (size_t i = 0; i < vg.points.size(); i++){
         if (vg.indices[i] == 1)
-        os << "["<<i<<"] "<<vg.indices[i]<< " "<< vg.points[i][0] << " "<< vg.points[i][1] << " "<< vg.points[i][2]<< std::endl;
+        os << "["<<i<<"] "<< vg.points[i][0] << " "<< vg.points[i][1] << " "<< vg.points[i][2]<< std::endl;
     }
     os << std::endl;
     return os;

@@ -122,7 +122,7 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     }
     
     if (children.GetCount() < 2) {
-        //return NULL;
+        return NULL;
     }
     
     LONG splineInterpolation = data->GetLong(SPLINEOBJECT_INTERPOLATION);
@@ -136,7 +136,7 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     vector<vector<float> > points;
     std::vector<VGrid> grids;
 
-    int gridSize = 20;
+    LONG gridSize = data->GetLong(GRID_SIZE);
     for (int k= 0; k < children.GetCount(); k++){
         Vector bb = children[k]->GetRad();        
         Matrix ml;
@@ -190,7 +190,6 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
     for (LONG k=0; k < grids.size(); k++){
         validPoints[k] = GeDynamicArray<LONG>(grids[0].points.size());
         validPoints[k].Fill(0,grids[0].points.size(),1);
-
     }
     
     GeDynamicArray<LONG> indxs;
@@ -220,7 +219,9 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
                 }
                 continue;
             }
-            Real dist = hypot(grids[o].points[indx][0] - grids[o+1].points[indx][0], hypot(grids[o].points[indx][1] - grids[o+1].points[indx][1], grids[o].points[indx][2] - grids[o+1].points[indx][2]));
+            vector<float> point = grids[o].points[indx];
+            vector<float> point1 = grids[o+1].points[indx];
+            Real dist = hypot(point[0] - point1[0], hypot(point[1] - point1[1], point[2] - point1[2]));
             distMin = distMin < dist ? distMin : dist;
             distMax = distMax > dist ? distMax : dist;
             
@@ -230,8 +231,8 @@ SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG 
                 //}
             }
             validPoints[o][i] = 0;
-            
-            Vector clsst(grids[o+1].points[i][0],grids[o+1].points[i][1],grids[o+1].points[i][2]);
+
+            Vector clsst(point1[0],point1[1],point1[2]);
             
             if (splinesAtPoint[i].Find(clsst) == NOTOK){
                 splinesAtPoint[i].Push(clsst);
