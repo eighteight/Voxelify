@@ -144,7 +144,17 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
         GePrint(children[k]->GetName());
         vector<float> centro(3);
         grids.push_back(vox.voxelify(points,gridSize, centro, 12, 1.0));
+        if (k % 5 == 0){
+            LONG progress = 10 + (50*k)/children.GetCount();
+            StatusSetBar(progress);
+            StatusSetText(LongToString(progress)+"%");
+            if (bt && bt->TestBreak()){
+                //break; //this break seems to be kicking in randomly killing the loop
+            }
+        }
     }
+
+    StatusSetText("Building Splines");
 
     parentMatrix = parent->GetMl();
     
@@ -177,10 +187,6 @@ Error:
 }
 
 SplineObject* Voxelify::ComputeSpline(BaseThread* bt, vector<VGrid> grids, LONG longestPercent, GeDynamicArray<GeDynamicArray<Vector> > &splinesAtPoint){
-    
-    StatusSetBar(5);
-    StatusSetText("Connecting Points");
-    
     SplineObject* parentSpline = SplineObject::Alloc(0, SPLINETYPE_BSPLINE);
     
     std::vector<SplinePair >splinePairs;

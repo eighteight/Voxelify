@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "source/object/voxelify.cpp"
-         timestampString = "404859906.433874"
+         timestampString = "405802171.102535"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "206"
-         endingLineNumber = "206"
+         startingLineNumber = "212"
+         endingLineNumber = "212"
          landmarkName = "Voxelify::ComputeSpline(BaseThread* bt, vector&lt;VGrid&gt; grids, LONG longestPercent, GeDynamicArray&lt;GeDynamicArray&lt;Vector&gt; &gt; &amp;splinesAtPoint)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "source/object/voxelify.cpp"
-         timestampString = "405016330.703316"
+         timestampString = "405802171.102535"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "273"
-         endingLineNumber = "273"
+         startingLineNumber = "279"
+         endingLineNumber = "279"
          landmarkName = "Voxelify::ComputeSpline(BaseThread* bt, vector&lt;VGrid&gt; grids, LONG longestPercent, GeDynamicArray&lt;GeDynamicArray&lt;Vector&gt; &gt; &amp;splinesAtPoint)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "source/object/voxelify.cpp"
-         timestampString = "405755212.589769"
+         timestampString = "405802171.102535"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "182"
-         endingLineNumber = "182"
+         startingLineNumber = "294"
+         endingLineNumber = "294"
          landmarkName = "Voxelify::ComputeSpline(BaseThread* bt, vector&lt;VGrid&gt; grids, LONG longestPercent, GeDynamicArray&lt;GeDynamicArray&lt;Vector&gt; &gt; &amp;splinesAtPoint)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,24 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "source/object/voxelify.cpp"
-         timestampString = "405755465.070421"
+         timestampString = "405802171.102535"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "288"
-         endingLineNumber = "288"
-         landmarkName = "Voxelify::ComputeSpline(BaseThread* bt, vector&lt;VGrid&gt; grids, LONG longestPercent, GeDynamicArray&lt;GeDynamicArray&lt;Vector&gt; &gt; &amp;splinesAtPoint)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "source/object/voxelify.cpp"
-         timestampString = "405757344.095678"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "151"
-         endingLineNumber = "151"
+         startingLineNumber = "161"
+         endingLineNumber = "161"
          landmarkName = "Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, BaseThread *bt)"
          landmarkType = "5">
       </FileBreakpoint>
