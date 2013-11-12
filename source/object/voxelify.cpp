@@ -128,8 +128,8 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     LONG splineInterpolation = data->GetLong(SPLINEOBJECT_INTERPOLATION);
     LONG longestPercent = data->GetLong(TAKE_LONGEST, 1);
     longestPercent = longestPercent > 100 ? 100: longestPercent;
-    
-    
+
+    parentMatrix = parent->GetMl();
     GeDynamicArray<GeDynamicArray<Vector> > objectPoints(children.GetCount());
 	StatusSetBar(0);
     StatusSetText("Collecting Points");
@@ -155,8 +155,6 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     }
 
     StatusSetText("Building Splines");
-
-    parentMatrix = parent->GetMl();
     
     SplineObject* parentSpline = ComputeSpline(bt, grids, longestPercent, splineAtPoint);
     
