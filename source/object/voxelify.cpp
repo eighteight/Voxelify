@@ -136,14 +136,14 @@ SplineObject* Voxelify::GetContour(BaseObject *op, BaseDocument *doc, Real lod, 
     vector<vector<float> > points;
     std::vector<VGrid> grids;
 
-    LONG gridSize = data->GetLong(GRID_SIZE);
+    LONG gridSize = data->GetLong(GRID_SIZE, 1);
+    if (!(gridSize > 0)) return NULL;
     for (int k= 0; k < children.GetCount(); k++){
         Matrix ml;
         DoRecursion(op,children[k],objectPoints[k], ml);
         points = objectPointsToPoints(objectPoints[k]);
         GePrint(children[k]->GetName());
-        vector<float> centro(3);
-        grids.push_back(vox.voxelify(points,gridSize, centro, 12, 1.0));
+        grids.push_back(vox.voxelify(points,gridSize, 12, 1.0));
         if (k % 5 == 0){
             LONG progress = 10 + (50*k)/children.GetCount();
             StatusSetBar(progress);
